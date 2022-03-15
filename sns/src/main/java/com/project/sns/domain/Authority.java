@@ -1,6 +1,7 @@
 package com.project.sns.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Authority {
 
@@ -23,7 +25,7 @@ public class Authority {
         this.authority_name = authority_name;
     }
 
-    public Authority createAuthority(String authority_name){
+    public static Authority createAuthority(String authority_name){
         return new Authority(authority_name);
     }
 

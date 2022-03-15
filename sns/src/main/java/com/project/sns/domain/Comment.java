@@ -1,8 +1,11 @@
 package com.project.sns.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class Comment {
 
     @Id @GeneratedValue
