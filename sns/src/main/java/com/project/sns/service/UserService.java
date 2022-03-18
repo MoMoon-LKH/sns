@@ -13,13 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityRepository authorityRepository;
+
 
     @Transactional
     public Long signUp(UserDto userDto) {
@@ -30,16 +31,23 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
     public Optional<User> findOneToEmail(String email) {
         return userRepository.findOneToEmail(email);
     }
 
 
+    public String login(User user) {
+        return "";
+    }
+
 
     private User convertUserDtoToUser(UserDto userDto, Authority authority) {
+        String encodePw = passwordEncoder.encode(userDto.getPw());
+
         return User.createUser(
                 userDto.getEmail(),
-                userDto.getPw(),
+                encodePw,
                 userDto.getNickname(),
                 userDto.getGender(),
                 authority

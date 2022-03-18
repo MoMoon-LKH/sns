@@ -24,6 +24,7 @@ public class UserRepository {
         em.remove(user);
     }
 
+
     @EntityGraph(attributePaths = "authorities")
     public Optional<User> findOneToEmail(String email) {
         List<User> user = em.createQuery("select u from User u where u.email = :email", User.class)
@@ -32,6 +33,18 @@ public class UserRepository {
 
         return user.stream().findAny();
     }
+
+
+    @EntityGraph(attributePaths = "authorities")
+    public Optional<User> login(User user) {
+        List<User> loginUser = em.createQuery("select u from User u where u.email = :email and u.pw = :pw", User.class)
+                .setParameter("email", user.getEmail())
+                .setParameter("pw", user.getPw())
+                .getResultList();
+
+        return  loginUser.stream().findAny();
+    }
+
 
     public boolean duplicateUser(String email) {
 

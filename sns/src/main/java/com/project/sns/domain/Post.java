@@ -14,15 +14,18 @@ import java.util.List;
 @NoArgsConstructor
 public class Post {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 300)
     private String content;
     private Date create_date;
     private Date update_date;
-    @Column(name = "like_num")
-    private int like;
+
+    @OneToMany(mappedBy = "post")
+    private List<Likes> likes = new ArrayList<>();
+
+
     // 해시태그 추가할 것
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,7 +41,6 @@ public class Post {
         this.user = user;
         this.create_date = new Date();
         this.update_date = new Date();
-        this.like = 0;
     }
 
     public static Post createPost(String content, User user) {
@@ -48,14 +50,6 @@ public class Post {
     public void update(String content) {
         this.content = content;
         this.update_date = new Date();
-    }
-
-    public void addLike() {
-        this.like++;
-    }
-
-    public void reduceLike() {
-        this.like--;
     }
 
 
