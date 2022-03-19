@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,7 @@ public class UserService {
 
 
     public Optional<User> findOneToEmail(String email) {
+
         return userRepository.findOneToEmail(email);
     }
 
@@ -53,5 +55,6 @@ public class UserService {
                 authority
                 );
     }
+
 
 }

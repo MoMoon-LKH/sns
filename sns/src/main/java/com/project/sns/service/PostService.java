@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -20,9 +21,7 @@ public class PostService {
 
 
     @Transactional
-    public Long write(PostDto postDto, User user) {
-        Post post = Post.createPost(postDto.getContent(), user);
-
+    public Long newPost(Post post) {
         return postRepository.save(post);
     }
 
@@ -46,19 +45,15 @@ public class PostService {
     public Post updatePost(PostDto postDto) {
         Optional<Post> getPost = postRepository.findOne(postDto.getId());
 
-        if (getPost.isEmpty()) {
-            return null;
-        }
-
-        Post post = getPost.get();
+        Post post = getPost.orElseThrow(NoSuchElementException::new);
         post.update(postDto.getContent());
 
         return post;
     }
 
 
-    public Optional<Post> findOneForId(PostDto postDto) {
-        return postRepository.findOne(postDto.getId());
+    public Optional<Post> findOneForId(Long id) {
+        return postRepository.findOne(id);
     }
 
     public List<Post> findAllForUserId(Long userId) {
