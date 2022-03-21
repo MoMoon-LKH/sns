@@ -27,17 +27,11 @@ public class PostService {
 
 
     @Transactional
-    public String delete(PostDto postDto) {
+    public boolean delete(PostDto postDto) {
 
-        Optional<Post> post = postRepository.findOne(postDto.getId());
+        Post post = postRepository.findOne(postDto.getId()).orElseThrow(NoSuchElementException::new);
 
-        if (post.isEmpty()) {
-            return "false";
-        }
-
-        postRepository.remove(post.get());
-
-        return "success";
+        return postRepository.remove(post);
     }
 
 
@@ -56,8 +50,13 @@ public class PostService {
         return postRepository.findOne(id);
     }
 
+
     public List<Post> findAllForUserId(Long userId) {
         return postRepository.findUserId(userId);
+    }
+
+    public List<Post> findAll(int page) {
+        return postRepository.findAll(page);
     }
 
 }

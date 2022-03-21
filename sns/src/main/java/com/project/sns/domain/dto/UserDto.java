@@ -2,17 +2,17 @@ package com.project.sns.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.sns.domain.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
+@Data
 public class UserDto {
 
+    @NotNull
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

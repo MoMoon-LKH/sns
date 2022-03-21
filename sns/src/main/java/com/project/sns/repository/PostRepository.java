@@ -19,8 +19,10 @@ public class PostRepository {
         return post.getId();
     }
 
-    public void remove(Post post) {
-        em.remove(post);
+    public boolean remove(Post post) {
+         int count = em.createQuery("delete from Post p where p.id = :id", Post.class)
+                .setParameter("id", post.getId()).executeUpdate();
+         return count > 0;
     }
 
     public Optional<Post> findOne(Long postId) {
@@ -35,6 +37,13 @@ public class PostRepository {
     public List<Post> findUserId(Long userId) {
         return em.createQuery("select p from Post p where p.user.id = :id", Post.class)
                 .setParameter("id", userId)
+                .getResultList();
+    }
+
+    public List<Post> findAll(int page) {
+        return em.createQuery("select p from Post p order by p.create_date desc", Post.class)
+                .setFirstResult(5 * page)
+                .setMaxResults(5)
                 .getResultList();
     }
 }
