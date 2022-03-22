@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -51,7 +51,7 @@ class PostServiceTest {
     @Transactional
     public void updatePost() {
         //given
-        Post post = initialPost();
+        Post post = addPost("test Text");
         PostDto postDto = new PostDto(post.getId(), "update Test Context", post.getCreate_date(), post.getUpdate_date(), new UserDto());
 
         //when
@@ -61,11 +61,12 @@ class PostServiceTest {
         assertThat(updatePost.getContent()).isEqualTo(postDto.getContent());
     }
 
+
     @Test
     @Transactional
     public void delete() {
         //given
-        Post post = initialPost();
+        Post post = addPost("test Text");
         PostDto postDto = new PostDto(post.getId(), post.getContent(), post.getCreate_date(), post.getUpdate_date(), new UserDto());
 
         //when
@@ -77,20 +78,55 @@ class PostServiceTest {
 
 
     @Test
+    @Transactional
     public void findAll() {
+        //given
+        int page = 0;
+        int i = 1;
+        int count = 7;
+        while (i <= 7) {
+            addPost("test page Text " + i);
+            System.out.println("i = " + i);
+            i++;
+        }
+
+        //when
+        List<Post> posts = postService.findAll(0);
+
+
+        //then
+        assertThat(posts.size()).isEqualTo(5);
+
+        for (Post post : posts) {
+            assertThat(post.getContent()).isEqualTo("test page Text " + --i);
+            System.out.println("post.getContent() = " + post.getContent());
+
+
+        }
 
     }
 
 
     @Test
+    @Transactional
     public void findOne() {
+        //given
+        Post post = addPost("findOne");
+
+        //when
+        Post findPost = postService.findOneForId(post.getId()).orElseThrow(NoSuchFieldError::new);
+
+        //then
+        assertThat(post.getId()).isEqualTo(findPost.getId());
+        assertThat(post).isSameAs(findPost);
+
 
     }
 
-    public Post initialPost() {
+    public Post addPost(String content) {
         //given
         User user = userService.findOneToEmail("test").orElseThrow(IllegalStateException::new);
-        Post post = Post.createPost("test content", user);
+        Post post = Post.createPost(content, user);
 
 
         //when

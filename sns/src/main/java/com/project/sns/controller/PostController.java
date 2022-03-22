@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -40,7 +40,7 @@ public class PostController {
 
     @PostMapping("/delete")
     public ResponseEntity<String> delete(@Valid @RequestBody PostDto postDto) {
-        return ResponseEntity.ok(Boolean.toString(postService.delete(postDto)).toString());
+        return ResponseEntity.ok(Boolean.toString(postService.delete(postDto)));
 
     }
 
