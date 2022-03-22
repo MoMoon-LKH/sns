@@ -33,7 +33,7 @@ public class UserService {
     }
 
 
-    public Optional<User> findOneToEmail(String email) {
+    public Optional<User> findOneWithEmail(String email) {
 
         return userRepository.findOneToEmail(email);
     }

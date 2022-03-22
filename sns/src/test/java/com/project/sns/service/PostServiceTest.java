@@ -33,13 +33,13 @@ class PostServiceTest {
     @Transactional
     public void newPost() {
         //given
-        User user = userService.findOneToEmail("test").orElseThrow(IllegalStateException::new);
+        User user = userService.findOneWithEmail("test").orElseThrow(IllegalStateException::new);
         Post post = Post.createPost("test content", user);
 
 
         //when
         Long postId = postService.newPost(post);
-        Post findPost = postService.findOneForId(postId).orElseThrow(IllegalStateException::new);
+        Post findPost = postService.findOneWithId(postId).orElseThrow(IllegalStateException::new);
 
 
         //then
@@ -114,7 +114,7 @@ class PostServiceTest {
         Post post = addPost("findOne");
 
         //when
-        Post findPost = postService.findOneForId(post.getId()).orElseThrow(NoSuchFieldError::new);
+        Post findPost = postService.findOneWithId(post.getId()).orElseThrow(NoSuchFieldError::new);
 
         //then
         assertThat(post.getId()).isEqualTo(findPost.getId());
@@ -125,12 +125,12 @@ class PostServiceTest {
 
     public Post addPost(String content) {
         //given
-        User user = userService.findOneToEmail("test").orElseThrow(IllegalStateException::new);
+        User user = userService.findOneWithEmail("test").orElseThrow(IllegalStateException::new);
         Post post = Post.createPost(content, user);
 
 
         //when
         Long postId = postService.newPost(post);
-        return postService.findOneForId(postId).orElseThrow(IllegalStateException::new);
+        return postService.findOneWithId(postId).orElseThrow(IllegalStateException::new);
     }
 }

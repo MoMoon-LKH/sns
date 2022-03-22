@@ -25,7 +25,7 @@ public class UserController {
     ) {
         userService.signUp(userDto);
 
-        return ResponseEntity.ok(userService.findOneToEmail(userDto.getEmail()).orElseGet(null));
+        return ResponseEntity.ok(userService.findOneWithEmail(userDto.getEmail()).orElseGet(null));
     }
 
 }

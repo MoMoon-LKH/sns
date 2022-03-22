@@ -46,12 +46,12 @@ public class PostService {
     }
 
 
-    public Optional<Post> findOneForId(Long id) {
+    public Optional<Post> findOneWithId(Long id) {
         return postRepository.findOne(id);
     }
 
 
-    public List<Post> findAllForUserId(Long userId) {
+    public List<Post> findAllWithUserId(Long userId) {
         return postRepository.findUserId(userId);
     }
 

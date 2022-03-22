@@ -27,20 +27,20 @@ public class PostController {
 
     @PostMapping("/new")
     public ResponseEntity<PostDto> newPost(@Valid @RequestBody PostDto postDto) {
-        User user = userService.findOneToEmail(postDto.getUserDto().getEmail()).orElseThrow(NoSuchElementException::new);
+        User user = userService.findOneWithEmail(postDto.getUserDto().getEmail()).orElseThrow(NoSuchElementException::new);
 
         Post post = Post.createPost(postDto.getContent(), user);
 
         Long newId = postService.newPost(post);
 
-        Post findPost = postService.findOneForId(newId).orElseThrow(NoSuchElementException::new);
+        Post findPost = postService.findOneWithId(newId).orElseThrow(NoSuchElementException::new);
 
         return ResponseEntity.ok(convertPostDto(findPost));
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<String> delete(@Valid @RequestBody PostDto postDto) {
-        return ResponseEntity.ok(Boolean.toString(postService.delete(postDto)));
+    public ResponseEntity<Boolean> delete(@Valid @RequestBody PostDto postDto) {
+        return ResponseEntity.ok(postService.delete(postDto));
 
     }
 
@@ -53,14 +53,14 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPost(@PathVariable("id") Long id) {
-        Post post = postService.findOneForId(id).orElseThrow(NoSuchElementException::new);
+        Post post = postService.findOneWithId(id).orElseThrow(NoSuchElementException::new);
         return ResponseEntity.ok(convertPostDto(post));
     }
 
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PostDto>> getPostForUserId(@PathVariable("userId") Long userId) {
-        List<Post> posts = postService.findAllForUserId(userId);
+        List<Post> posts = postService.findAllWithUserId(userId);
         List<PostDto> postDtoList = new ArrayList<>();
 
         for (Post post : posts) {
