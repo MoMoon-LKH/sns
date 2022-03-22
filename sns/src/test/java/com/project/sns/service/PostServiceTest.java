@@ -2,6 +2,8 @@ package com.project.sns.service;
 
 import com.project.sns.domain.Post;
 import com.project.sns.domain.User;
+import com.project.sns.domain.dto.PostDto;
+import com.project.sns.domain.dto.UserDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,6 +50,28 @@ class PostServiceTest {
     @Test
     @Transactional
     public void updatePost() {
+        //given
+        Post post = initialPost();
+        PostDto postDto = new PostDto(post.getId(), "update Test Context", post.getCreate_date(), post.getUpdate_date(), new UserDto());
+
+        //when
+        Post updatePost = postService.updatePost(postDto);
+
+        //then
+        assertThat(updatePost.getContent()).isEqualTo(postDto.getContent());
+    }
+
+    @Test
+    @Transactional
+    public void delete() {
+        //given
+        Post post = initialPost();
+        PostDto postDto = new PostDto(post.getId(), post.getContent(), post.getCreate_date(), post.getUpdate_date(), new UserDto());
+
+        //when
+        boolean delBoolean = postService.delete(postDto);
+
+        assertThat(delBoolean).isTrue();
 
     }
 
@@ -61,5 +85,16 @@ class PostServiceTest {
     @Test
     public void findOne() {
 
+    }
+
+    public Post initialPost() {
+        //given
+        User user = userService.findOneToEmail("test").orElseThrow(IllegalStateException::new);
+        Post post = Post.createPost("test content", user);
+
+
+        //when
+        Long postId = postService.newPost(post);
+        return postService.findOneForId(postId).orElseThrow(IllegalStateException::new);
     }
 }

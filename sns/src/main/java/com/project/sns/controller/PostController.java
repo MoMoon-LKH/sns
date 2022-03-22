@@ -39,8 +39,8 @@ public class PostController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Boolean> delete(@Valid @RequestBody PostDto postDto) {
-        return ResponseEntity.ok(postService.delete(postDto));
+    public ResponseEntity<String> delete(@Valid @RequestBody PostDto postDto) {
+        return ResponseEntity.ok(Boolean.toString(postService.delete(postDto)).toString());
 
     }
 

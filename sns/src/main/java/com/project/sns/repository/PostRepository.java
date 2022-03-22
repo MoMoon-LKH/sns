@@ -20,9 +20,13 @@ public class PostRepository {
     }
 
     public boolean remove(Post post) {
-         int count = em.createQuery("delete from Post p where p.id = :id", Post.class)
-                .setParameter("id", post.getId()).executeUpdate();
-         return count > 0;
+        try {
+            em.remove(post);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public Optional<Post> findOne(Long postId) {
