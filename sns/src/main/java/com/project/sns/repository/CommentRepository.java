@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommentRepository {
 
-    private static EntityManager em;
+    private final EntityManager em;
 
     public Long save(Comment comment) {
         em.persist(comment);

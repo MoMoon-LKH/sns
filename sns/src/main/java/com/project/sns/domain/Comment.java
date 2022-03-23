@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Comment {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String content;
