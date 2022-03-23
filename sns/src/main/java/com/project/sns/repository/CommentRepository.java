@@ -1,6 +1,7 @@
 package com.project.sns.repository;
 
 import com.project.sns.domain.Comment;
+import com.project.sns.domain.dto.CommentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +20,14 @@ public class CommentRepository {
         return comment.getId();
     }
 
+    public Optional<Comment> findClassId(Long id) {
+        return Optional.ofNullable(em.find(Comment.class, id));
+    }
 
-    public boolean delete(Comment comment) {
+
+    public boolean delete(Long id) {
         try {
-            em.remove(comment);
+            em.remove(em.find(Comment.class, id));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,16 +36,25 @@ public class CommentRepository {
     }
 
 
-    public List<Comment> findForPostId(Long postId) {
+    public List<CommentDto> findForPostId(Long postId) {
         return em.createQuery(
-                "select c, u.nickname from Comment c join fetch c.user u " +
-                        "where c.post.id = :postId order by c.create_date asc", Comment.class)
+                "select " +
+                        "new com.project.sns.domain.dto.CommentDto(c.id, c.content, c.create_date, p.id , u.id, u.nickname) " +
+                        "from Comment c " +
+                        "left join User u on u.id = c.user.id " +
+                        "left join Post p on p.id = c.post.id " +
+                        "where c.post.id = :postId order by c.create_date asc", CommentDto.class)
                 .setParameter("postId", postId)
                 .getResultList();
     }
 
-    public Optional<Comment> findOneForId(Long id) {
-        return em.createQuery("select c from Comment c where c.id = :id", Comment.class)
+    public Optional<CommentDto> findOneForId(Long id) {
+        return em.createQuery("select " +
+                "new com.project.sns.domain.dto.CommentDto(c.id, c.content, c.create_date, p.id , u.id, u.nickname) " +
+                "from Comment c " +
+                "left join User u on u.id = c.user.id " +
+                "left join Post p on p.id = c.post.id " +
+                "where c.id = :id", CommentDto.class)
                 .setParameter("id", id)
                 .getResultList().stream().findAny();
     }

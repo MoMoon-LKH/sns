@@ -30,10 +30,7 @@ public class PostRepository {
     }
 
     public Optional<Post> findOne(Long postId) {
-        List<Post> posts = em.createQuery("select p from Post p where p.id = :id", Post.class)
-                .setParameter("id", postId)
-                .getResultList();
-        return posts.stream().findAny();
+        return Optional.ofNullable(em.find(Post.class,postId));
     }
 
 

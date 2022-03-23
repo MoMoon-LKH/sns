@@ -24,23 +24,23 @@ public class CommentController {
     private final PostService postService;
 
     @PostMapping("new")
-    public ResponseEntity<Comment> newComment(@Valid @RequestBody CommentDto commentDto) {
-        User user = userService.findOneWithEmail(commentDto.getUserDto().getEmail()).orElseThrow(NoSuchFieldError::new);
-        Post post = postService.findOneWithId(commentDto.getPostDto().getId()).orElseThrow(NoSuchFieldError::new);
+    public ResponseEntity<CommentDto> newComment(@Valid @RequestBody CommentDto commentDto) {
+        User user = userService.findOneWithId(commentDto.getUserId()).orElseThrow(NoSuchFieldError::new);
+        Post post = postService.findOneWithId(commentDto.getPostId()).orElseThrow(NoSuchFieldError::new);
 
         Comment comment = Comment.createComment(commentDto.getContent(), user, post);
         Long newId = commentService.newComment(comment);
         return ResponseEntity.ok(commentService.findOneForId(newId).orElseThrow(NoSuchFieldError::new));
     }
 
+
     @PostMapping("delete")
     public ResponseEntity<Boolean> deleteComment(@Valid @RequestBody CommentDto commentDto) {
-        Comment comment = commentService.findOneForId(commentDto.getId()).orElseThrow(NoSuchFieldError::new);
-        return ResponseEntity.ok(commentService.deleteComment(comment));
+        return ResponseEntity.ok(commentService.deleteComment(commentDto.getId()));
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<List<Comment>> commentsOnPost(@PathVariable("postId") Long postId) {
+    public ResponseEntity<List<CommentDto>> commentsOnPost(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(commentService.findWithPostId(postId));
     }
 }

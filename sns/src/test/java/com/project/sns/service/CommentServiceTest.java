@@ -57,7 +57,7 @@ class CommentServiceTest {
 
 
         //when
-        boolean bool = commentService.deleteComment(comment);
+        boolean bool = commentService.deleteComment(comment.getId());
 
         //then
         assertThat(bool).isTrue();
@@ -78,6 +78,6 @@ class CommentServiceTest {
         //when
         Long commentId = commentService.newComment(comment);
 
-        return commentService.findOneForId(commentId).orElseThrow(NoSuchFieldError::new);
+        return commentService.findClassId(commentId).orElseThrow(NoSuchFieldError::new);
     }
 }

@@ -29,6 +29,7 @@ public class PostService {
     @Transactional
     public boolean delete(PostDto postDto) {
 
+        
         Post post = postRepository.findOne(postDto.getId()).orElseThrow(NoSuchElementException::new);
 
         return postRepository.remove(post);

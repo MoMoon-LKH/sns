@@ -1,6 +1,7 @@
 package com.project.sns.service;
 
 import com.project.sns.domain.Comment;
+import com.project.sns.domain.dto.CommentDto;
 import com.project.sns.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,20 @@ public class CommentService {
     }
 
     @Transactional
-    public boolean deleteComment(Comment comment) {
-        return commentRepository.delete(comment);
+    public boolean deleteComment(Long commentId) {
+        return commentRepository.delete(commentId);
     }
 
+    public Optional<Comment> findClassId(Long id) {
+        return commentRepository.findClassId(id);
+    }
 
-    public List<Comment> findWithPostId(Long postId) {
+    public List<CommentDto> findWithPostId(Long postId) {
         return commentRepository.findForPostId(postId);
     }
 
 
-    public Optional<Comment> findOneForId(Long id) {
+    public Optional<CommentDto> findOneForId(Long id) {
         return commentRepository.findOneForId(id);
     }
 

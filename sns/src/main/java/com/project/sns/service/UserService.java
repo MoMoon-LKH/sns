@@ -38,6 +38,10 @@ public class UserService {
         return userRepository.findOneToEmail(email);
     }
 
+    public Optional<User> findOneWithId(Long userId) {
+        return userRepository.findWithId(userId);
+    }
+
 
     public String login(User user) {
         return "";

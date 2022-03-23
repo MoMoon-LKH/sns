@@ -45,6 +45,13 @@ public class UserRepository {
         return  loginUser.stream().findAny();
     }
 
+    @EntityGraph(attributePaths = "authorities")
+    public Optional<User> findWithId(Long userId) {
+        return em.createQuery("select u from User u where u.id = :id", User.class)
+                .setParameter("id", userId)
+                .getResultList().stream().findAny();
+    }
+
 
     public boolean duplicateUser(String email) {
 

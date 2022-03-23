@@ -2,8 +2,10 @@ package com.project.sns.controller;
 
 import com.project.sns.domain.Post;
 import com.project.sns.domain.User;
+import com.project.sns.domain.dto.CommentDto;
 import com.project.sns.domain.dto.PostDto;
 import com.project.sns.domain.dto.UserDto;
+import com.project.sns.service.CommentService;
 import com.project.sns.service.PostService;
 import com.project.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class PostController {
 
     private final UserService userService;
     private final PostService postService;
+    private final CommentService commentService;
 
 
     @PostMapping("/new")
@@ -40,8 +43,14 @@ public class PostController {
 
     @PostMapping("/delete")
     public ResponseEntity<Boolean> delete(@Valid @RequestBody PostDto postDto) {
-        return ResponseEntity.ok(postService.delete(postDto));
 
+        // Post 에 대한 코멘트들 삭제
+        List<CommentDto> commentDto = commentService.findWithPostId(postDto.getId());
+        for (CommentDto comment : commentDto) {
+            commentService.deleteComment(comment.getId());
+        }
+
+        return ResponseEntity.ok(postService.delete(postDto));
     }
 
 
