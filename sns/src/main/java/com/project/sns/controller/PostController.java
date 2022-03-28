@@ -30,15 +30,15 @@ public class PostController {
 
     @PostMapping("/new")
     public ResponseEntity<PostDto> newPost(@Valid @RequestBody PostDto postDto) {
-        User user = userService.findOneWithEmail(postDto.getUserDto().getEmail()).orElseThrow(NoSuchElementException::new);
+        User user = userService.findOneWithEmail(postDto.getUser_email()).orElseThrow(NoSuchElementException::new);
 
         Post post = Post.createPost(postDto.getContent(), user);
 
         Long newId = postService.newPost(post);
 
-        Post findPost = postService.findOneWithId(newId).orElseThrow(NoSuchElementException::new);
+        PostDto findPost = postService.findOneWithId(newId).orElseThrow(NoSuchElementException::new);
 
-        return ResponseEntity.ok(convertPostDto(findPost));
+        return ResponseEntity.ok(findPost);
     }
 
     @PostMapping("/delete")
@@ -62,41 +62,25 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPost(@PathVariable("id") Long id) {
-        Post post = postService.findOneWithId(id).orElseThrow(NoSuchElementException::new);
-        return ResponseEntity.ok(convertPostDto(post));
+        PostDto post = postService.findOneWithId(id).orElseThrow(NoSuchElementException::new);
+        return ResponseEntity.ok(post);
     }
 
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PostDto>> getPostForUserId(@PathVariable("userId") Long userId) {
-        List<Post> posts = postService.findAllWithUserId(userId);
-        List<PostDto> postDtoList = new ArrayList<>();
+        List<PostDto> posts = postService.findAllWithUserId(userId);
 
-        for (Post post : posts) {
-            postDtoList.add(convertPostDto(post));
-        }
-
-        return ResponseEntity.ok(postDtoList);
+        return ResponseEntity.ok(posts);
     }
 
 
     @GetMapping("/all/{page}")
     public ResponseEntity<List<PostDto>> getPost(@PathVariable("page") int page) {
-        List<PostDto> postDtoList = new ArrayList<>();
-        List<Post> posts = postService.findAll(page);
+        List<PostDto> posts = postService.findAll(page);
 
-        for (Post post : posts) {
-            postDtoList.add(convertPostDto(post));
-        }
 
-        return ResponseEntity.ok(postDtoList);
+        return ResponseEntity.ok(posts);
     }
 
-
-    public PostDto convertPostDto(Post post) {
-        User user = post.getUser();
-        UserDto userDto = new UserDto(user.getEmail(),user.getPw(), user.getNickname(), user.getGender());
-
-        return new PostDto(post.getId(), post.getContent(), post.getCreate_date(), post.getUpdate_date(), userDto);
-    }
 }

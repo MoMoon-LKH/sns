@@ -26,7 +26,7 @@ public class CommentController {
     @PostMapping("new")
     public ResponseEntity<CommentDto> newComment(@Valid @RequestBody CommentDto commentDto) {
         User user = userService.findOneWithId(commentDto.getUserId()).orElseThrow(NoSuchFieldError::new);
-        Post post = postService.findOneWithId(commentDto.getPostId()).orElseThrow(NoSuchFieldError::new);
+        Post post = postService.getPostClass(commentDto.getPostId()).orElseThrow(NoSuchFieldError::new);
 
         Comment comment = Comment.createComment(commentDto.getContent(), user, post);
         Long newId = commentService.newComment(comment);

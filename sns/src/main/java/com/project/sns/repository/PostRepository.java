@@ -1,6 +1,7 @@
 package com.project.sns.repository;
 
 import com.project.sns.domain.Post;
+import com.project.sns.domain.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -29,8 +30,19 @@ public class PostRepository {
         }
     }
 
-    public Optional<Post> findOne(Long postId) {
-        return Optional.ofNullable(em.find(Post.class,postId));
+    public Optional<Post> findPostClass(Long id) {
+        return Optional.ofNullable(em.find(Post.class, id));
+    }
+
+    public Optional<PostDto> findOne(Long postId) {
+        return em.createQuery("select " +
+                "new com.project.sns.domain.dto.PostDto(p.id, p.content, count(l.id), p.create_date, p.update_date, u.id, u.email, u.nickname) " +
+                "from Post p " +
+                "left join Likes l on l.post.id = p.id " +
+                "left join User u on u.id = p.user.id  " +
+                "where p.id = :id", PostDto.class)
+                .setParameter("id", postId)
+                .getResultList().stream().findAny();
     }
 
 

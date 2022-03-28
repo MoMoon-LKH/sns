@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class PostService {
     public boolean delete(PostDto postDto) {
 
         
-        Post post = postRepository.findOne(postDto.getId()).orElseThrow(NoSuchElementException::new);
+        Post post = postRepository.findPostClass(postDto.getId()).orElseThrow(NoSuchElementException::new);
 
         return postRepository.remove(post);
     }
@@ -38,7 +39,7 @@ public class PostService {
 
     @Transactional
     public Post updatePost(PostDto postDto) {
-        Optional<Post> getPost = postRepository.findOne(postDto.getId());
+        Optional<Post> getPost = postRepository.findPostClass(postDto.getId());
 
         Post post = getPost.orElseThrow(NoSuchElementException::new);
         post.update(postDto.getContent());
@@ -47,17 +48,39 @@ public class PostService {
     }
 
 
-    public Optional<Post> findOneWithId(Long id) {
-        return postRepository.findOne(id);
+    public Optional<PostDto> findOneWithId(Long id) {
+            return postRepository.findOne(id);
     }
 
 
-    public List<Post> findAllWithUserId(Long userId) {
-        return postRepository.findUserId(userId);
+    public List<PostDto> findAllWithUserId(Long userId) {
+        List<Post> posts = postRepository.findUserId(userId);
+        List<PostDto> postList = new ArrayList<>();
+
+        for (Post post : posts) {
+            postList.add(
+                    new PostDto(post.getId(), post.getContent(), post.getLikes().stream().count(), post.getCreate_date(), post.getUpdate_date(), post.getUser().getId(), post.getUser().getEmail(), post.getUser().getNickname())
+            );
+        }
+
+        return postList;
     }
 
-    public List<Post> findAll(int page) {
-        return postRepository.findAll(page);
+    public List<PostDto> findAll(int page) {
+        List<Post> posts = postRepository.findAll(page);
+        List<PostDto> postList = new ArrayList<>();
+
+        for (Post post : posts) {
+            postList.add(
+                    new PostDto(post.getId(), post.getContent(), post.getLikes().stream().count(), post.getCreate_date(), post.getUpdate_date(), post.getUser().getId(), post.getUser().getEmail(), post.getUser().getNickname())
+            );
+        }
+
+        return postList;
+    }
+
+    public Optional<Post> getPostClass(Long id) {
+        return postRepository.findPostClass(id);
     }
 
 }

@@ -22,9 +22,17 @@ public class PostDto {
     @Size(min = 1, max = 300)
     private String content;
 
+    private Long like;
+
     private Date create_date;
+
     private Date update_date;
 
-    private UserDto userDto;
+    private Long user_id;
+
+    private String user_email;
+
+    private String user_nickname;
+
 
 }

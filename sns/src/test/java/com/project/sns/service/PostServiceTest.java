@@ -39,7 +39,7 @@ class PostServiceTest {
 
         //when
         Long postId = postService.newPost(post);
-        Post findPost = postService.findOneWithId(postId).orElseThrow(IllegalStateException::new);
+        PostDto findPost = postService.findOneWithId(postId).orElseThrow(IllegalStateException::new);
 
 
         //then
@@ -52,7 +52,12 @@ class PostServiceTest {
     public void updatePost() {
         //given
         Post post = addPost("test Text");
-        PostDto postDto = new PostDto(post.getId(), "update Test Context", post.getCreate_date(), post.getUpdate_date(), new UserDto());
+        User user = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
+        PostDto postDto = PostDto.builder()
+                .id(post.getId())
+                .content("update_test_text")
+                .create_date(post.getCreate_date())
+                .build();
 
         //when
         Post updatePost = postService.updatePost(postDto);
@@ -67,7 +72,13 @@ class PostServiceTest {
     public void delete() {
         //given
         Post post = addPost("test Text");
-        PostDto postDto = new PostDto(post.getId(), post.getContent(), post.getCreate_date(), post.getUpdate_date(), new UserDto());
+        PostDto postDto = PostDto.builder()
+                .id(post.getId())
+                .content(post.getContent())
+                .like(post.getLikes().stream().count())
+                .create_date(post.getCreate_date())
+                .update_date(post.getUpdate_date())
+                .build();
 
         //when
         boolean delBoolean = postService.delete(postDto);
@@ -90,17 +101,21 @@ class PostServiceTest {
             i++;
         }
 
+
         //when
-        List<Post> posts = postService.findAll(0);
+        List<PostDto> posts = postService.findAll(page);
+
+        System.out.println("-------------------------------");
+        System.out.println("posts = " + posts);
+        System.out.println("-------------------------------" );
 
 
         //then
         assertThat(posts.size()).isEqualTo(5);
 
-        for (Post post : posts) {
+        for (PostDto post : posts) {
             assertThat(post.getContent()).isEqualTo("test page Text " + --i);
             System.out.println("post.getContent() = " + post.getContent());
-
 
         }
 
@@ -114,7 +129,7 @@ class PostServiceTest {
         Post post = addPost("findOne");
 
         //when
-        Post findPost = postService.findOneWithId(post.getId()).orElseThrow(NoSuchFieldError::new);
+        Post findPost = postService.getPostClass(post.getId()).orElseThrow(NoSuchFieldError::new);
 
         //then
         assertThat(post.getId()).isEqualTo(findPost.getId());
@@ -131,6 +146,6 @@ class PostServiceTest {
 
         //when
         Long postId = postService.newPost(post);
-        return postService.findOneWithId(postId).orElseThrow(IllegalStateException::new);
+        return postService.getPostClass(postId).orElseThrow(IllegalStateException::new);
     }
 }
