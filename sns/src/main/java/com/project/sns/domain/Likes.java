@@ -18,4 +18,13 @@ public class Likes {
     private Post post;
 
     private Long user_id;
+
+    private Likes(Post post, Long user_id) {
+        this.post = post;
+        this.user_id = user_id;
+    }
+
+    public static Likes createLikes(Post post, Long user_id) {
+        return new Likes(post, user_id);
+    }
 }

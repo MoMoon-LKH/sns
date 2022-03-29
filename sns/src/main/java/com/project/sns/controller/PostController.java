@@ -1,11 +1,13 @@
 package com.project.sns.controller;
 
+import com.project.sns.domain.Likes;
 import com.project.sns.domain.Post;
 import com.project.sns.domain.User;
 import com.project.sns.domain.dto.CommentDto;
 import com.project.sns.domain.dto.PostDto;
 import com.project.sns.domain.dto.UserDto;
 import com.project.sns.service.CommentService;
+import com.project.sns.service.LikeService;
 import com.project.sns.service.PostService;
 import com.project.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class PostController {
     private final UserService userService;
     private final PostService postService;
     private final CommentService commentService;
+    private final LikeService likeService;
 
 
     @PostMapping("/new")
@@ -82,5 +85,21 @@ public class PostController {
 
         return ResponseEntity.ok(posts);
     }
+
+    @PostMapping("/like/plus")
+    public ResponseEntity<Long> plusLike(@Valid @RequestBody PostDto postDto) {
+        Post post = postService.getPostClass(postDto.getId()).orElseThrow(NoSuchElementException::new);
+        Likes likes = Likes.createLikes(post, postDto.getUser_id());
+
+        Long likeId = likeService.save(likes);
+        return ResponseEntity.ok(likeId);
+    }
+
+    @PostMapping("like/minus")
+    public ResponseEntity<Boolean> minusLike(@Valid @RequestBody PostDto postDto) {
+        Likes like = likeService.getLike(postDto);
+        return ResponseEntity.ok(likeService.delete(like));
+    }
+
 
 }
