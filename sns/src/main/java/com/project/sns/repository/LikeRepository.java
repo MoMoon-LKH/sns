@@ -32,6 +32,7 @@ public class LikeRepository {
         }
     }
 
+
     public Optional<Likes> getLikeUser(PostDto postDto) {
         return em.createQuery("select l from Likes l " +
                 "where l.post.id = :postId and " +
