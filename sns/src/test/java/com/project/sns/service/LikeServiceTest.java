@@ -4,6 +4,7 @@ import com.project.sns.domain.Gender;
 import com.project.sns.domain.Likes;
 import com.project.sns.domain.Post;
 import com.project.sns.domain.User;
+import com.project.sns.domain.dto.LikeDto;
 import com.project.sns.domain.dto.PostDto;
 import com.project.sns.domain.dto.UserDto;
 import org.assertj.core.api.Assertions;
@@ -86,9 +87,8 @@ class LikeServiceTest {
 
         assertThat(postDto.getLike()).isEqualTo(2);
 
-
-        PostDto getPostDto = PostDto.builder().id(findPost.getId()).user_id(user1.getId()).build();
-        Likes findLikes = likeService.getLike(getPostDto);
+        LikeDto likeDto = LikeDto.builder().post_id(findPost.getId()).user_id(user1.getId()).build();
+        Likes findLikes = likeService.getLike(likeDto);
 
         //when
         likeService.delete(findLikes);

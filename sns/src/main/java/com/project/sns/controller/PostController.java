@@ -86,20 +86,6 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-    @PostMapping("/like/plus")
-    public ResponseEntity<Long> plusLike(@Valid @RequestBody PostDto postDto) {
-        Post post = postService.getPostClass(postDto.getId()).orElseThrow(NoSuchElementException::new);
-        Likes likes = Likes.createLikes(post, postDto.getUser_id());
-
-        Long likeId = likeService.save(likes);
-        return ResponseEntity.ok(likeId);
-    }
-
-    @PostMapping("like/minus")
-    public ResponseEntity<Boolean> minusLike(@Valid @RequestBody PostDto postDto) {
-        Likes like = likeService.getLike(postDto);
-        return ResponseEntity.ok(likeService.delete(like));
-    }
 
 
 }

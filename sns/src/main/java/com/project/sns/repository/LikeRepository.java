@@ -2,6 +2,7 @@ package com.project.sns.repository;
 
 import ch.qos.logback.core.encoder.EchoEncoder;
 import com.project.sns.domain.Likes;
+import com.project.sns.domain.dto.LikeDto;
 import com.project.sns.domain.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -33,12 +34,12 @@ public class LikeRepository {
     }
 
 
-    public Optional<Likes> getLikeUser(PostDto postDto) {
+    public Optional<Likes> getLikeUser(LikeDto likeDto) {
         return em.createQuery("select l from Likes l " +
                 "where l.post.id = :postId and " +
                 "l.user_id = :userId", Likes.class)
-                .setParameter("postId", postDto.getId())
-                .setParameter("userId", postDto.getUser_id())
+                .setParameter("postId", likeDto.getPost_id())
+                .setParameter("userId", likeDto.getUser_id())
                 .getResultList().stream().findAny();
     }
 
@@ -58,6 +59,12 @@ public class LikeRepository {
         return em.createQuery("select l from Likes l where l.post.id = :id", Likes.class)
                 .setParameter("id", postId)
                 .getResultList();
+    }
+
+    public Long getLikeCount(Long postId) {
+        return em.createQuery("select l from Likes l where l.post.id = :id", Likes.class)
+                .setParameter("id", postId)
+                .getResultStream().count();
     }
 
 

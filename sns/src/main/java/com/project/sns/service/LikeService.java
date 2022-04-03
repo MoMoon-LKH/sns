@@ -1,6 +1,7 @@
 package com.project.sns.service;
 
 import com.project.sns.domain.Likes;
+import com.project.sns.domain.dto.LikeDto;
 import com.project.sns.domain.dto.PostDto;
 import com.project.sns.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,12 @@ public class LikeService {
         return likeRepository.deleteList(likesList);
     }
 
-    public Likes getLike(PostDto postDto) {
-        return likeRepository.getLikeUser(postDto).orElseThrow(NoSuchFieldError::new);
+    public Likes getLike(LikeDto likeDto) {
+        return likeRepository.getLikeUser(likeDto).orElseThrow(NoSuchFieldError::new);
+    }
+
+    public int getLikeCount(Long postId) {
+        return likeRepository.getLikeCount(postId).intValue();
     }
 
 }
