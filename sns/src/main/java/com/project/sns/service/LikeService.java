@@ -38,8 +38,8 @@ public class LikeService {
         return likeRepository.getLikeUser(likeDto).orElseThrow(NoSuchFieldError::new);
     }
 
-    public int getLikeCount(Long postId) {
-        return likeRepository.getLikeCount(postId).intValue();
+    public LikeDto getLikeCount(LikeDto likeDto) {
+        return likeRepository.getLikeCount(likeDto);
     }
 
 }

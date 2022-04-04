@@ -61,10 +61,25 @@ public class LikeRepository {
                 .getResultList();
     }
 
-    public Long getLikeCount(Long postId) {
-        return em.createQuery("select l from Likes l where l.post.id = :id", Likes.class)
-                .setParameter("id", postId)
+    public LikeDto getLikeCount(LikeDto likeDto) {
+        boolean activated;
+        Long count = em.createQuery("select l from Likes l where l.post.id = :id", Likes.class)
+                .setParameter("id", likeDto.getPost_id())
                 .getResultStream().count();
+
+        if (likeDto.getUser_id() == null) {
+            activated = false;
+        } else{
+            activated = em.createQuery("select l from Likes  l where l.user_id = :userId and l.post.id = :postId", Likes.class)
+                    .setParameter("userId",likeDto.getUser_id())
+                    .setParameter("postId",likeDto.getPost_id())
+                    .getResultStream().count() > 0;
+        }
+
+        likeDto.setLike_count(Math.toIntExact(count));
+        likeDto.setActivated(activated);
+
+        return likeDto;
     }
 
 

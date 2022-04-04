@@ -17,8 +17,9 @@ public class LikeDto {
     @NotNull
     private Long post_id;
 
-    @NotNull
     private Long user_id;
 
     private int like_count;
+
+    private boolean activated;
 }

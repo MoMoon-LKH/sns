@@ -25,20 +25,21 @@ public class LikeController {
 
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Integer> getLikeCount(@PathVariable("postId") Long postId) {
-        return ResponseEntity.ok(likeService.getLikeCount(postId));
+    public ResponseEntity<LikeDto> getLikeCount(@PathVariable("postId") Long postId) {
+        LikeDto likeDto = LikeDto.builder().post_id(postId).build();
+        return ResponseEntity.ok(likeService.getLikeCount(likeDto));
     }
 
 
     @PostMapping("/plus")
-    public ResponseEntity<Integer> plusLike(@Valid @RequestBody LikeDto likeDto) {
+    public ResponseEntity<LikeDto> plusLike(@Valid @RequestBody LikeDto likeDto) {
 
         Post post = postService.getPostClass(likeDto.getPost_id()).orElseThrow(NoSuchElementException::new);
         Likes likes = Likes.createLikes(post, likeDto.getUser_id());
 
         Long likeId = likeService.save(likes);
 
-        return ResponseEntity.ok(likeService.getLikeCount(likeDto.getPost_id()));
+        return ResponseEntity.ok(likeService.getLikeCount(likeDto));
     }
 
     @PostMapping("/minus")
@@ -46,7 +47,7 @@ public class LikeController {
         Likes like = likeService.getLike(likeDto);
 
         if (likeService.delete(like)) {
-            return ResponseEntity.ok(likeService.getLikeCount(likeDto.getPost_id()));
+            return ResponseEntity.ok(likeService.getLikeCount(likeDto));
         } else{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제에 실패했습니다.");
         }
