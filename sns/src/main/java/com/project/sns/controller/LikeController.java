@@ -2,10 +2,12 @@ package com.project.sns.controller;
 
 import com.project.sns.domain.Likes;
 import com.project.sns.domain.Post;
+import com.project.sns.domain.User;
 import com.project.sns.domain.dto.LikeDto;
 import com.project.sns.domain.dto.PostDto;
 import com.project.sns.service.LikeService;
 import com.project.sns.service.PostService;
+import com.project.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.NoSuchElementException;
 public class LikeController {
 
     private final PostService postService;
+    private final UserService userService;
     private final LikeService likeService;
 
 
@@ -35,7 +38,8 @@ public class LikeController {
     public ResponseEntity<LikeDto> plusLike(@Valid @RequestBody LikeDto likeDto) {
 
         Post post = postService.getPostClass(likeDto.getPost_id()).orElseThrow(NoSuchElementException::new);
-        Likes likes = Likes.createLikes(post, likeDto.getUser_id());
+        User user = userService.findOneWithId(likeDto.getUser_id()).orElseThrow(NoSuchElementException::new);
+        Likes likes = Likes.createLikes(post, user);
 
         Long likeId = likeService.save(likes);
 

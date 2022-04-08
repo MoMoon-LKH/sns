@@ -48,8 +48,8 @@ class LikeServiceTest {
 
         Post findPost = postService.getPostClass(postService.newPost(post)).orElseThrow(NoSuchFieldError::new);
 
-        Likes likes1 = Likes.createLikes(findPost, user1.getId());
-        Likes likes2 = Likes.createLikes(findPost, user2.getId());
+        Likes likes1 = Likes.createLikes(findPost, user1);
+        Likes likes2 = Likes.createLikes(findPost, user2);
 
         //when
         likeService.save(likes1);
@@ -77,8 +77,8 @@ class LikeServiceTest {
 
         Post findPost = postService.getPostClass(postService.newPost(post)).orElseThrow(NoSuchFieldError::new);
 
-        Likes likes1 = Likes.createLikes(findPost, user1.getId());
-        Likes likes2 = Likes.createLikes(findPost, user2.getId());
+        Likes likes1 = Likes.createLikes(findPost, user1);
+        Likes likes2 = Likes.createLikes(findPost, user2);
 
         likeService.save(likes1);
         likeService.save(likes2);

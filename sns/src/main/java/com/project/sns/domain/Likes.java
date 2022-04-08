@@ -17,14 +17,16 @@ public class Likes {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    private Long user_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private Likes(Post post, Long user_id) {
+    private Likes(Post post, User user) {
         this.post = post;
-        this.user_id = user_id;
+        this.user = user;
     }
 
-    public static Likes createLikes(Post post, Long user_id) {
-        return new Likes(post, user_id);
+    public static Likes createLikes(Post post, User user) {
+        return new Likes(post, user);
     }
 }

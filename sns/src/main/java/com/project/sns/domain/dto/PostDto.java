@@ -24,6 +24,8 @@ public class PostDto {
 
     private Long like;
 
+
+
     private Date create_date;
 
     private Date update_date;
