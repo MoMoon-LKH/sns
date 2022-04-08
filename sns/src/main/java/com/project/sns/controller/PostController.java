@@ -11,6 +11,7 @@ import com.project.sns.service.LikeService;
 import com.project.sns.service.PostService;
 import com.project.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,6 +85,15 @@ public class PostController {
 
 
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/tag/{tag}")
+    public ResponseEntity<?> getPostWithTag(@PathVariable("tag") String tag) {
+        if(tag.charAt(0) != '#')
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("해시태그가 아닙니다.");
+
+        return ResponseEntity.ok(postService.getPostWithTag(tag));
+
     }
 
 

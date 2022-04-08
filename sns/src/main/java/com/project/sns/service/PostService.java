@@ -55,32 +55,34 @@ public class PostService {
 
     public List<PostDto> findAllWithUserId(Long userId) {
         List<Post> posts = postRepository.findUserId(userId);
-        List<PostDto> postList = new ArrayList<>();
-
-        for (Post post : posts) {
-            postList.add(
-                    new PostDto(post.getId(), post.getContent(), post.getLikes().stream().count(), post.getCreate_date(), post.getUpdate_date(), post.getUser().getId(), post.getUser().getEmail(), post.getUser().getNickname())
-            );
-        }
-
-        return postList;
+        return getPostDtos(posts);
     }
 
     public List<PostDto> findAll(int page) {
         List<Post> posts = postRepository.findAll(page);
-        List<PostDto> postList = new ArrayList<>();
-
-        for (Post post : posts) {
-            postList.add(
-                    new PostDto(post.getId(), post.getContent(), post.getLikes().stream().count(), post.getCreate_date(), post.getUpdate_date(), post.getUser().getId(), post.getUser().getEmail(), post.getUser().getNickname())
-            );
-        }
-
-        return postList;
+        return getPostDtos(posts);
     }
+
+
+    public List<PostDto> getPostWithTag(String tag) {
+        return postRepository.findPostTag(tag);
+    }
+
 
     public Optional<Post> getPostClass(Long id) {
         return postRepository.findPostClass(id);
     }
 
+
+    private List<PostDto> getPostDtos(List<Post> posts) {
+        List<PostDto> postList = new ArrayList<>();
+
+        for (Post post : posts) {
+            postList.add(
+                    new PostDto(post.getId(), post.getContent(), (long) post.getLikes().size(), post.getCreate_date(), post.getUpdate_date(), post.getUser().getId(), post.getUser().getEmail(), post.getUser().getNickname())
+            );
+        }
+
+        return postList;
+    }
 }

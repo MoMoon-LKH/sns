@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,6 +17,9 @@ public class Hashtag {
 
     @Column(unique = true, length = 30)
     private String tag;
+
+    @OneToMany(mappedBy = "hashtag")
+    private List<Post_Hashtag> post_hashtag;
 
     private Hashtag(String tag) {
         this.tag = tag;

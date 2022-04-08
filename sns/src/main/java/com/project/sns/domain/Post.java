@@ -35,13 +35,8 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "post_hashtag",
-            joinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")}
-    )
-    private List<Hashtag> tags = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Post_Hashtag> post_hashtags = new ArrayList<>();
 
 
     private Post(String content, User user) {
