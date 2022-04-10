@@ -1,6 +1,7 @@
 # sns 프로젝트
 ### 1) 개요
-- SNS 기능을 구현한 백엔드 프로젝트
+SNS의 동작 흐름의 흥미가 가게되어 만들고 있는 프로젝트입니다.
+
 <br>
 
 ### 2) 기간
@@ -23,14 +24,15 @@
 - 회원 정보 조회
 - 포스트 작성 및 수정, 삭제
 - 댓글 작성 및 삭제
+- 해시태그
+- 좋아요 기능
+ 
 
 #### 4.2) 추가 예정 기능
-- 좋아요 기능
-- 해시태그
 - 친구 기능
 
 <br>
 
 ### 5) 엔티티 관계도
-<img src ="https://user-images.githubusercontent.com/66755342/160538600-29028829-a4fb-4e8b-95bc-546995b9951d.png" width="40%" height="40%"/>
+<img src ="https://user-images.githubusercontent.com/66755342/162623081-619fe8b8-64a6-4ee7-868c-1ed413cf90c5.png" width="50%" height="50%"/>
 
