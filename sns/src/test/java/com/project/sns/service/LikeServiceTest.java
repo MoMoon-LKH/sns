@@ -33,11 +33,38 @@ class LikeServiceTest {
     private UserService userService;
 
 
-
     @Test
-    public void getLike() {
+    public void saveAndGet() {
+
+        //given
+        User user = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
+        Post post = Post.createPost("tset", user);
+        postService.newPost(post);
+
+        User user1 = userService.findOneWithId(
+                userService.signUp(
+                        UserDto.builder().email("user1").gender(Gender.FEMALE).pw("123").build()))
+                .orElseThrow(NoSuchFieldError::new);
+        User user2 = userService.findOneWithId(
+                userService.signUp(
+                        UserDto.builder().email("user2").gender(Gender.FEMALE).pw("123").build()))
+                .orElseThrow(NoSuchFieldError::new);
+        User user3 = userService.findOneWithId(
+                userService.signUp(
+                        UserDto.builder().email("user3").gender(Gender.FEMALE).pw("123").build()))
+                .orElseThrow(NoSuchFieldError::new);
+
+        //when
+        likeService.save(Likes.createLikes(post, user1));
+        likeService.save(Likes.createLikes(post, user2));
+        likeService.save(Likes.createLikes(post, user3));
+
+        //then
+        LikeDto like = likeService.getLikeCount(LikeDto.builder().post_id(post.getId()).build());
+        assertThat(like.getLike_count()).isEqualTo(3);
 
     }
+
 
     @Test
     public void plusLike() {

@@ -14,6 +14,6 @@ public class AuthorityRepository {
     private final EntityManager em;
 
     public Authority getUserAuthority() {
-        return em.find(Authority.class, 2);
+        return em.find(Authority.class, (long) 2);
     }
 }
