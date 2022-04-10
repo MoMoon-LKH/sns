@@ -148,4 +148,34 @@ class PostServiceTest {
         Long postId = postService.newPost(post);
         return postService.getPostClass(postId).orElseThrow(IllegalStateException::new);
     }
+
+
+    @Test
+    @Transactional
+    public void getPostTag() {
+        //given
+        String tag = "#test";
+
+        User user = userService.findOneWithEmail("test").orElseThrow(IllegalStateException::new);
+        Post post1 = Post.createPost("test " + tag + " asdqw", user);
+        Post post2 = Post.createPost(tag + " test sds ", user);
+        Post post3 = Post.createPost("test #tes sds ", user);
+
+        postService.newPost(post1);
+        postService.newPost(post2);
+        postService.newPost(post3);
+
+        //when
+        List<PostDto> list = postService.getPostWithTag(tag);
+
+        //then
+        assertThat(list.size()).isEqualTo(2);
+
+        for (PostDto post : list) {
+            System.out.println("--------------------------------");
+            System.out.println("content : " + post.getContent());
+            assertThat(post.getContent().contains(tag)).isTrue();
+        }
+
+    }
 }

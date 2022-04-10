@@ -64,13 +64,12 @@ public class PostRepository {
     }
 
 
-    public List<PostDto> findPostTag(String hashtag) {
-        return em.createQuery("select " +
-                "new com.project.sns.domain.dto.PostDto(p.id, p.content, count(l.id), p.create_date, p.update_date, u.id, u.email, u.nickname) " +
+    public List<Post> findPostTag(String hashtag) {
+        return em.createQuery("select p " +
                 "from Post p " +
                 "left join Likes l on l.post.id = p.id " +
                 "left join User u on u.id = p.user.id  " +
-                "where p.content like concat('%', :hashtag, '%')", PostDto.class)
+                "where p.content like concat('%', :hashtag, '%')", Post.class)
                 .setParameter("hashtag", hashtag)
                 .getResultList();
     }

@@ -32,8 +32,14 @@ class LikeServiceTest {
     @Autowired
     private UserService userService;
 
-    @Test
 
+
+    @Test
+    public void getLike() {
+
+    }
+
+    @Test
     public void plusLike() {
         //given
 
@@ -61,6 +67,7 @@ class LikeServiceTest {
         assertThat(postDto.getLike()).isEqualTo(2);
 
     }
+
 
     @Test
     public void minusLike() {

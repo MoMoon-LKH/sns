@@ -65,7 +65,7 @@ public class PostService {
 
 
     public List<PostDto> getPostWithTag(String tag) {
-        return postRepository.findPostTag(tag);
+        return getPostDtos(postRepository.findPostTag(tag));
     }
 
 

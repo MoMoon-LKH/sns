@@ -65,6 +65,7 @@ class CommentServiceTest {
     }
 
 
+    @Transactional
     public Comment initialNewComment() {
         //given
         String commentContent = "comment";

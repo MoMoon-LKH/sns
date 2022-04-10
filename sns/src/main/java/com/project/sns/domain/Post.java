@@ -35,9 +35,6 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
-    private List<Post_Hashtag> post_hashtags = new ArrayList<>();
-
 
     private Post(String content, User user) {
         this.content = content;
