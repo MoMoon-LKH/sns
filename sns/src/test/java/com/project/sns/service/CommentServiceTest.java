@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ class CommentServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void saveComment() {
         //given
         String commentContent = "comment";
@@ -50,6 +52,7 @@ class CommentServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void deleteComment() {
         //given
         Comment comment = initialNewComment();
@@ -64,7 +67,7 @@ class CommentServiceTest {
     }
 
 
-    @Transactional
+
     public Comment initialNewComment() {
         //given
         String commentContent = "comment";

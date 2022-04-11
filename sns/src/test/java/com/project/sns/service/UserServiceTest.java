@@ -34,6 +34,7 @@ class UserServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void signUp() {
         //given
         UserDto userDto = UserDto.builder()

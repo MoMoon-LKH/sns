@@ -38,19 +38,19 @@ public class FollowController {
     }
 
 
-    @GetMapping("/{followeeId}")
+    @GetMapping("/follower/{followeeId}")
     public ResponseEntity<?> getFollowers(@PathVariable("followeeId") Long followeeId) {
         return ResponseEntity.ok(followService.userFollows(followeeId));
     } // 해당 유저를 팔로우한 사람들 리스트
 
 
-    @GetMapping("/{followId}")
+    @GetMapping("/followee/{followId}")
     public ResponseEntity<?> getFollowee(@PathVariable("followId") Long followId) {
         return ResponseEntity.ok(followService.userFollowee(followId));
     } // 해당 유저가 팔로우한 사람들 리스트
 
 
-    @GetMapping("/userId")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getCount(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(followService.followCount(userId));
     }

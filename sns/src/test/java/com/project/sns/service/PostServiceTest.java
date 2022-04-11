@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ class PostServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void newPost() {
         //given
         User user = userService.findOneWithEmail("test");
@@ -49,6 +51,7 @@ class PostServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void updatePost() {
         //given
         Post post = addPost("test Text");
@@ -69,6 +72,7 @@ class PostServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void delete() {
         //given
         Post post = addPost("test Text");
@@ -90,6 +94,7 @@ class PostServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void findAll() {
         //given
         int page = 0;
@@ -124,6 +129,7 @@ class PostServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void findOne() {
         //given
         Post post = addPost("findOne");
@@ -152,6 +158,7 @@ class PostServiceTest {
 
     @Test
     @Transactional
+    @Rollback
     public void getPostTag() {
         //given
         String tag = "#test";

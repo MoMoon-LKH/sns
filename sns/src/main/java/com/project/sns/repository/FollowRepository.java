@@ -43,7 +43,7 @@ public class FollowRepository {
 
 
     public List<Follow> userFollows(Long userId) {
-        return em.createQuery("select f from Follow f where f.follower = :userId", Follow.class)
+        return em.createQuery("select f from Follow f where f.follower.id = :userId", Follow.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }

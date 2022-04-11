@@ -19,7 +19,7 @@ public class Follow {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "followee")
-    private User followee; // 팔로우 하는 대상
+    private User followee; // 팔로우 대상
 
     private Follow(User follower, User followee) {
         this.follower = follower;

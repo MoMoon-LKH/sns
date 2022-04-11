@@ -28,11 +28,11 @@ class UserRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
+    @Rollback
     public void join() {
         //given
         Authority authority = Authority.createAuthority("USER");
-        User user = User.createUser("test", "test", "test", Gender.MALE, authority);
+        User user = User.createUser("joinTest", "test", "test", Gender.MALE, authority);
 
 
         //when

@@ -34,6 +34,8 @@ class LikeServiceTest {
 
 
     @Test
+    @Transactional
+    @Rollback
     public void saveAndGet() {
 
         //given
@@ -64,6 +66,8 @@ class LikeServiceTest {
 
 
     @Test
+    @Transactional
+    @Rollback
     public void plusLike() {
         //given
 
@@ -94,6 +98,8 @@ class LikeServiceTest {
 
 
     @Test
+    @Transactional
+    @Rollback
     public void minusLike() {
 
         //given
