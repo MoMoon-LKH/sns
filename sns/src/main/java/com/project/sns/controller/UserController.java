@@ -6,15 +6,13 @@ import com.project.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -25,7 +23,12 @@ public class UserController {
     ) {
         userService.signUp(userDto);
 
-        return ResponseEntity.ok(userService.findOneWithEmail(userDto.getEmail()).orElseGet(null));
+        return ResponseEntity.ok(userService.findOneWithEmail(userDto.getEmail()));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUser(@PathVariable(value = "userId") Long userId) {
+        return ResponseEntity.ok(userService.findOneWithId(userId));
     }
 
 }

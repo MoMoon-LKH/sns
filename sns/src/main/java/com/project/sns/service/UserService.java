@@ -33,13 +33,13 @@ public class UserService {
     }
 
 
-    public Optional<User> findOneWithEmail(String email) {
+    public User findOneWithEmail(String email) {
 
-        return userRepository.findOneToEmail(email);
+        return userRepository.findOneToEmail(email).orElseThrow(NoSuchFieldError::new);
     }
 
-    public Optional<User> findOneWithId(Long userId) {
-        return userRepository.findWithId(userId);
+    public User findOneWithId(Long userId) {
+        return userRepository.findWithId(userId).orElseThrow(NoSuchFieldError::new);
     }
 
 

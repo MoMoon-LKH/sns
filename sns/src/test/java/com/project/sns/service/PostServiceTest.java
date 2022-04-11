@@ -33,13 +33,13 @@ class PostServiceTest {
     @Transactional
     public void newPost() {
         //given
-        User user = userService.findOneWithEmail("test").orElseThrow(IllegalStateException::new);
+        User user = userService.findOneWithEmail("test");
         Post post = Post.createPost("test content", user);
 
 
         //when
         Long postId = postService.newPost(post);
-        PostDto findPost = postService.findOneWithId(postId).orElseThrow(IllegalStateException::new);
+        PostDto findPost = postService.findOneWithId(postId);
 
 
         //then
@@ -52,7 +52,7 @@ class PostServiceTest {
     public void updatePost() {
         //given
         Post post = addPost("test Text");
-        User user = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
+        User user = userService.findOneWithEmail("test");
         PostDto postDto = PostDto.builder()
                 .id(post.getId())
                 .content("update_test_text")
@@ -129,7 +129,7 @@ class PostServiceTest {
         Post post = addPost("findOne");
 
         //when
-        Post findPost = postService.getPostClass(post.getId()).orElseThrow(NoSuchFieldError::new);
+        Post findPost = postService.getPostClass(post.getId());
 
         //then
         assertThat(post.getId()).isEqualTo(findPost.getId());
@@ -140,13 +140,13 @@ class PostServiceTest {
 
     public Post addPost(String content) {
         //given
-        User user = userService.findOneWithEmail("test").orElseThrow(IllegalStateException::new);
+        User user = userService.findOneWithEmail("test");
         Post post = Post.createPost(content, user);
 
 
         //when
         Long postId = postService.newPost(post);
-        return postService.getPostClass(postId).orElseThrow(IllegalStateException::new);
+        return postService.getPostClass(postId);
     }
 
 
@@ -156,7 +156,7 @@ class PostServiceTest {
         //given
         String tag = "#test";
 
-        User user = userService.findOneWithEmail("test").orElseThrow(IllegalStateException::new);
+        User user = userService.findOneWithEmail("test");
         Post post1 = Post.createPost("test " + tag + " asdqw", user);
         Post post2 = Post.createPost(tag + " test sds ", user);
         Post post3 = Post.createPost("test #tes sds ", user);

@@ -25,12 +25,12 @@ public class CommentController {
 
     @PostMapping("new")
     public ResponseEntity<CommentDto> newComment(@Valid @RequestBody CommentDto commentDto) {
-        User user = userService.findOneWithId(commentDto.getUserId()).orElseThrow(NoSuchFieldError::new);
-        Post post = postService.getPostClass(commentDto.getPostId()).orElseThrow(NoSuchFieldError::new);
+        User user = userService.findOneWithId(commentDto.getUserId());
+        Post post = postService.getPostClass(commentDto.getPostId());
 
         Comment comment = Comment.createComment(commentDto.getContent(), user, post);
         Long newId = commentService.newComment(comment);
-        return ResponseEntity.ok(commentService.findOneForId(newId).orElseThrow(NoSuchFieldError::new));
+        return ResponseEntity.ok(commentService.findOneForId(newId));
     }
 
 

@@ -38,6 +38,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "follower")
+    private List<Follow> followers;
+
+    @OneToMany(mappedBy = "followee")
+    private List<Follow> followee;
+
     @ManyToMany
     @JoinTable(
             name = "user_authority",

@@ -37,7 +37,7 @@ public class LikeRepository {
     public Optional<Likes> getLikeUser(LikeDto likeDto) {
         return em.createQuery("select l from Likes l " +
                 "where l.post.id = :postId and " +
-                "l.user_id = :userId", Likes.class)
+                "l.user.id = :userId", Likes.class)
                 .setParameter("postId", likeDto.getPost_id())
                 .setParameter("userId", likeDto.getUser_id())
                 .getResultList().stream().findAny();
@@ -70,7 +70,7 @@ public class LikeRepository {
         if (likeDto.getUser_id() == null) {
             activated = false;
         } else{
-            activated = em.createQuery("select l from Likes  l where l.user_id = :userId and l.post.id = :postId", Likes.class)
+            activated = em.createQuery("select l from Likes  l where l.user.id = :userId and l.post.id = :postId", Likes.class)
                     .setParameter("userId",likeDto.getUser_id())
                     .setParameter("postId",likeDto.getPost_id())
                     .getResultStream().count() > 0;

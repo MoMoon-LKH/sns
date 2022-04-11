@@ -37,22 +37,19 @@ class LikeServiceTest {
     public void saveAndGet() {
 
         //given
-        User user = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
+        User user = userService.findOneWithEmail("test");
         Post post = Post.createPost("tset", user);
         postService.newPost(post);
 
         User user1 = userService.findOneWithId(
                 userService.signUp(
-                        UserDto.builder().email("user1").gender(Gender.FEMALE).pw("123").build()))
-                .orElseThrow(NoSuchFieldError::new);
+                        UserDto.builder().email("user1").gender(Gender.FEMALE).pw("123").build()));
         User user2 = userService.findOneWithId(
                 userService.signUp(
-                        UserDto.builder().email("user2").gender(Gender.FEMALE).pw("123").build()))
-                .orElseThrow(NoSuchFieldError::new);
+                        UserDto.builder().email("user2").gender(Gender.FEMALE).pw("123").build()));
         User user3 = userService.findOneWithId(
                 userService.signUp(
-                        UserDto.builder().email("user3").gender(Gender.FEMALE).pw("123").build()))
-                .orElseThrow(NoSuchFieldError::new);
+                        UserDto.builder().email("user3").gender(Gender.FEMALE).pw("123").build()));
 
         //when
         likeService.save(Likes.createLikes(post, user1));
@@ -73,13 +70,13 @@ class LikeServiceTest {
         UserDto userDto = UserDto.builder().email("qwer").pw("qwer").gender(Gender.FEMALE).nickname("qwer").build();
         UserDto userDto2 = UserDto.builder().email("qwer2").pw("qwer2").gender(Gender.FEMALE).nickname("qwer2").build();
 
-        User test = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
-        User user1 = userService.findOneWithId(userService.signUp(userDto)).orElseThrow(NoSuchFieldError::new);
-        User user2 = userService.findOneWithId(userService.signUp(userDto2)).orElseThrow(NoSuchFieldError::new);
+        User test = userService.findOneWithEmail("test");
+        User user1 = userService.findOneWithId(userService.signUp(userDto));
+        User user2 = userService.findOneWithId(userService.signUp(userDto2));
 
         Post post = Post.createPost("dddd", test);
 
-        Post findPost = postService.getPostClass(postService.newPost(post)).orElseThrow(NoSuchFieldError::new);
+        Post findPost = postService.getPostClass(postService.newPost(post));
 
         Likes likes1 = Likes.createLikes(findPost, user1);
         Likes likes2 = Likes.createLikes(findPost, user2);
@@ -88,7 +85,7 @@ class LikeServiceTest {
         likeService.save(likes1);
         likeService.save(likes2);
 
-        PostDto postDto = postService.findOneWithId(findPost.getId()).orElseThrow(NoSuchFieldError::new);
+        PostDto postDto = postService.findOneWithId(findPost.getId());
 
         //then
         assertThat(postDto.getLike()).isEqualTo(2);
@@ -103,13 +100,13 @@ class LikeServiceTest {
         UserDto userDto = UserDto.builder().email("qwer").pw("qwer").gender(Gender.FEMALE).nickname("qwer").build();
         UserDto userDto2 = UserDto.builder().email("qwer2").pw("qwer2").gender(Gender.FEMALE).nickname("qwer2").build();
 
-        User test = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
-        User user1 = userService.findOneWithId(userService.signUp(userDto)).orElseThrow(NoSuchFieldError::new);
-        User user2 = userService.findOneWithId(userService.signUp(userDto2)).orElseThrow(NoSuchFieldError::new);
+        User test = userService.findOneWithEmail("test");
+        User user1 = userService.findOneWithId(userService.signUp(userDto));
+        User user2 = userService.findOneWithId(userService.signUp(userDto2));
 
         Post post = Post.createPost("dddd", test);
 
-        Post findPost = postService.getPostClass(postService.newPost(post)).orElseThrow(NoSuchFieldError::new);
+        Post findPost = postService.getPostClass(postService.newPost(post));
 
         Likes likes1 = Likes.createLikes(findPost, user1);
         Likes likes2 = Likes.createLikes(findPost, user2);
@@ -117,7 +114,7 @@ class LikeServiceTest {
         likeService.save(likes1);
         likeService.save(likes2);
 
-        PostDto postDto = postService.findOneWithId(findPost.getId()).orElseThrow(NoSuchFieldError::new);
+        PostDto postDto = postService.findOneWithId(findPost.getId());
 
         assertThat(postDto.getLike()).isEqualTo(2);
 
@@ -127,7 +124,7 @@ class LikeServiceTest {
         //when
         likeService.delete(findLikes);
 
-        PostDto findPostDto = postService.findOneWithId(postDto.getId()).orElseThrow(NoSuchFieldError::new);
+        PostDto findPostDto = postService.findOneWithId(postDto.getId());
 
         assertThat(findPostDto.getLike()).isEqualTo(1);
 

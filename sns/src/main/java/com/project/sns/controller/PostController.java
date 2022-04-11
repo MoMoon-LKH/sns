@@ -34,13 +34,13 @@ public class PostController {
 
     @PostMapping("/new")
     public ResponseEntity<PostDto> newPost(@Valid @RequestBody PostDto postDto) {
-        User user = userService.findOneWithEmail(postDto.getUser_email()).orElseThrow(NoSuchElementException::new);
+        User user = userService.findOneWithEmail(postDto.getUser_email());
 
         Post post = Post.createPost(postDto.getContent(), user);
 
         Long newId = postService.newPost(post);
 
-        PostDto findPost = postService.findOneWithId(newId).orElseThrow(NoSuchElementException::new);
+        PostDto findPost = postService.findOneWithId(newId);
 
         return ResponseEntity.ok(findPost);
     }
@@ -66,7 +66,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPost(@PathVariable("id") Long id) {
-        PostDto post = postService.findOneWithId(id).orElseThrow(NoSuchElementException::new);
+        PostDto post = postService.findOneWithId(id);
         return ResponseEntity.ok(post);
     }
 

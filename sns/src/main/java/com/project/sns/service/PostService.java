@@ -48,8 +48,8 @@ public class PostService {
     }
 
 
-    public Optional<PostDto> findOneWithId(Long id) {
-            return postRepository.findOne(id);
+    public PostDto findOneWithId(Long id) {
+            return postRepository.findOne(id).orElseThrow(NoSuchFieldError::new);
     }
 
 
@@ -69,8 +69,8 @@ public class PostService {
     }
 
 
-    public Optional<Post> getPostClass(Long id) {
-        return postRepository.findPostClass(id);
+    public Post getPostClass(Long id) {
+        return postRepository.findPostClass(id).orElseThrow(NoSuchFieldError::new);
     }
 
 

@@ -27,8 +27,8 @@ public class CommentService {
         return commentRepository.delete(commentId);
     }
 
-    public Optional<Comment> findClassId(Long id) {
-        return commentRepository.findClassId(id);
+    public Comment findClassId(Long id) {
+        return commentRepository.findClassId(id).orElseThrow(NoSuchFieldError::new);
     }
 
     public List<CommentDto> findWithPostId(Long postId) {
@@ -36,8 +36,8 @@ public class CommentService {
     }
 
 
-    public Optional<CommentDto> findOneForId(Long id) {
-        return commentRepository.findOneForId(id);
+    public CommentDto findOneForId(Long id) {
+        return commentRepository.findOneForId(id).orElseThrow(NoSuchFieldError::new);
     }
 
 

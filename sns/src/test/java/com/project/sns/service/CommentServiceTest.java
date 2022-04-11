@@ -34,7 +34,7 @@ class CommentServiceTest {
         //given
         String commentContent = "comment";
 
-        User user = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
+        User user = userService.findOneWithEmail("test");
         Post post = Post.createPost("test Text", user);
         postService.newPost(post);
 
@@ -45,8 +45,7 @@ class CommentServiceTest {
 
 
         //then
-        assertThat(commentContent).isEqualTo(commentService.findOneForId(commentId)
-                                                .orElseThrow(NoSuchFieldError::new).getContent());
+        assertThat(commentContent).isEqualTo(commentService.findOneForId(commentId).getContent());
     }
 
     @Test
@@ -70,7 +69,7 @@ class CommentServiceTest {
         //given
         String commentContent = "comment";
 
-        User user = userService.findOneWithEmail("test").orElseThrow(NoSuchFieldError::new);
+        User user = userService.findOneWithEmail("test");
         Post post = Post.createPost("test Text", user);
         postService.newPost(post);
 
@@ -79,6 +78,6 @@ class CommentServiceTest {
         //when
         Long commentId = commentService.newComment(comment);
 
-        return commentService.findClassId(commentId).orElseThrow(NoSuchFieldError::new);
+        return commentService.findClassId(commentId);
     }
 }

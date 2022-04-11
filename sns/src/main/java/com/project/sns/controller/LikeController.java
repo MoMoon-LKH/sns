@@ -37,8 +37,8 @@ public class LikeController {
     @PostMapping("/plus")
     public ResponseEntity<LikeDto> plusLike(@Valid @RequestBody LikeDto likeDto) {
 
-        Post post = postService.getPostClass(likeDto.getPost_id()).orElseThrow(NoSuchElementException::new);
-        User user = userService.findOneWithId(likeDto.getUser_id()).orElseThrow(NoSuchElementException::new);
+        Post post = postService.getPostClass(likeDto.getPost_id());
+        User user = userService.findOneWithId(likeDto.getUser_id());
         Likes likes = Likes.createLikes(post, user);
 
         Long likeId = likeService.save(likes);

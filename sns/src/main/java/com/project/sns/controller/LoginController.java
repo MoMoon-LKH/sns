@@ -43,14 +43,13 @@ public class LoginController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Optional<User> user = userService.findOneWithEmail(loginDto.getEmail());
+        User user = userService.findOneWithEmail(loginDto.getEmail());
 
         Map<String, Object> map = new HashMap<>();
 
-        if (user.isPresent()) {
-            map.put("email", user.get().getEmail());
-            map.put("nickname", user.get().getNickname());
-        }
+        map.put("email", user.getEmail());
+        map.put("nickname", user.getNickname());
+
 
         String jwt = tokenProvider.createToken(authentication, map);
 
