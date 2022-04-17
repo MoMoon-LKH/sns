@@ -16,9 +16,9 @@ SNS 백엔드 프로젝트
 <br>
 
 ### 3) 사용한 기술
-#### Back
+#### `Back-end`
 - java 11
-- Spring Boot 2.6.4 및 Security
+- Spring Boot 2.6.4
 - Jpa, MariaDB
 - Jwt
 
